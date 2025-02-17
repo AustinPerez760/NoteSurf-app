@@ -18,10 +18,14 @@
 	}
 
 	.btn-primary {
-		@apply w-full text-sm bg-blue-500 text-white p-2 rounded my-1 hover:bg-blue-300;
+		@apply w-full text-sm bg-teal-100 text-white p-2 rounded my-1 hover:bg-blue-300;
 	}
 
 	.icon-btn {
 		@apply text-xl text-slate-300 cursor-pointer hover:text-blue-400;
+	}
+
+	.input-label {
+		@apply text-xs text-slate-400;
 	}
 }
