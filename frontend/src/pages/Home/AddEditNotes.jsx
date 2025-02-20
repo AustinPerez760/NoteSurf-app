@@ -1,8 +1,9 @@
 import TagInput from '../../compnents/Inputs/TagInput';
 import { useState } from 'react';
 import { MdClose } from 'react-icons/md';
+import axiosInstance from '../../utils/axiosinstance';
 
-const AddEditNotes = ({ noteData, type, onClose }) => {
+const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
 	const [tags, setTags] = useState([]);
@@ -10,7 +11,24 @@ const AddEditNotes = ({ noteData, type, onClose }) => {
 	const [error, setError] = useState(null);
 
 	// Add Note
-	const addNewNote = async () => {};
+	const addNewNote = async () => {
+		try {
+			const response = await axiosInstance.post('/add-note', {
+				title,
+				content,
+				tags,
+			});
+
+			if (response.data && response.data.note) {
+				getAllNotes();
+				onClose();
+			}
+		} catch (error) {
+			if (error.reponse && error.response.data && error.response.data.error) {
+				setError(error.response.data.message);
+			}
+		}
+	};
 	// Edit Note
 	const editNote = async () => {};
 
@@ -31,7 +49,7 @@ const AddEditNotes = ({ noteData, type, onClose }) => {
 			editNote();
 			// Handle edit note logic
 		} else {
-			addNote();
+			addNewNote();
 			// Handle add note logic
 		}
 	};
@@ -75,7 +93,7 @@ const AddEditNotes = ({ noteData, type, onClose }) => {
 			{error && <p className='text-red-500 text-sm mt-2'>{error}</p>}
 
 			<button
-				className='btn-primary font-medium mt-5 p-3'
+				className='btn-primary bg-teal-100 font-medium mt-5 p-3 cursor-pointer'
 				onClick={handleAddNote}>
 				ADD
 			</button>

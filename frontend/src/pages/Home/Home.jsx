@@ -14,6 +14,7 @@ const Home = () => {
 		data: null,
 	});
 
+	const [allNotes, setAllNotes] = useState([]);
 	const [userInfo, setUserInfo] = useState(null);
 
 	const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Home = () => {
 				setUserInfo(response.data.user);
 			}
 		} catch (error) {
-			if (error.response && error.response.status === 401) {
+			if (error.response.status === 401) {
 				localStorage.clear();
 				navigate('/login');
 			} else {
@@ -35,7 +36,21 @@ const Home = () => {
 		}
 	};
 
+	// Get all notes
+	const getAllNotes = async () => {
+		try {
+			const response = await axiosInstance.get('/get-all-notes');
+
+			if (response.data && response.data.notes) {
+				setAllNotes(response.data.notes);
+			}
+		} catch (error) {
+			console.log('Error fetching notes:', error);
+		}
+	};
+
 	useEffect(() => {
+		getAllNotes();
 		getUserInfo();
 		return () => {};
 	}, []);
@@ -46,16 +61,19 @@ const Home = () => {
 
 			<div className='container mx-auto'>
 				<div className='grid grid-cols-3 gap-4 mt-8'>
-					<NoteCard
-						title='Meeting next wednesday the 20th'
-						date='20th of Feburary'
-						content='Meeting for one hour'
-						tags='#Meeting'
-						isPinned={true}
-						onEdit={() => {}}
-						onDelete={() => {}}
-						onPinNote={() => {}}
-					/>
+					{allNotes.map((item, index) => (
+						<NoteCard
+							key={item._id}
+							title={item.title}
+							date={item.createdOn}
+							content={item.content}
+							tags={item.tags}
+							isPinned={item.isPinned}
+							onEdit={() => {}}
+							onDelete={() => {}}
+							onPinNote={() => {}}
+						/>
+					))}
 				</div>
 			</div>
 			<button
@@ -64,6 +82,8 @@ const Home = () => {
 					setOpenAddEditModal({
 						...openAddEditModal,
 						isShown: true,
+						type: 'add',
+						data: null,
 					});
 				}}>
 				<MdAdd className='text-[32px] text-white' />
@@ -85,6 +105,7 @@ const Home = () => {
 					onClose={() => {
 						setOpenAddEditModal({ isShown: false, type: 'add', data: null });
 					}}
+					getAllNotes={getAllNotes}
 				/>
 			</Modal>
 		</>
