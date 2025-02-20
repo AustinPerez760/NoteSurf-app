@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useNavigate } from 'react-router-dom';
 import ProfileInfo from '../compnents/cards/ProfileInfo';
 import SearchBar from '../compnents/SearchBar/SearchBar';

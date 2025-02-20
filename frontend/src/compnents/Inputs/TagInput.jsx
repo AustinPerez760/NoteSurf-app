@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { MdAdd, MdClose } from 'react-icons/md';
 import { useState } from 'react';
 

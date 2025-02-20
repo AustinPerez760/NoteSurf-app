@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 const EmptyCard = ({ imgSrc, message }) => {
 	return (
 		<div className='flex flex-col items-center justify-center mt-20'>

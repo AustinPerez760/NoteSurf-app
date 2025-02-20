@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import TagInput from '../../compnents/Inputs/TagInput';
 import { useState } from 'react';
 import { MdClose } from 'react-icons/md';

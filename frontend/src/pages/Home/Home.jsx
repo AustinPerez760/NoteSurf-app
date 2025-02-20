@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '../../compnents/Navbar';
 import NoteCard from '../../compnents/Cards/NoteCard';
 import { MdAdd } from 'react-icons/md';
